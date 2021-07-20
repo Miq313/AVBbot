@@ -11,7 +11,7 @@ def resetCurPos(x, y, dir):
         },
         "direction": dir
         }
-    with open(os.getcwd()+"/curPos.json", "w") as curPosFile:
+    with open(os.getcwd()+"/CurPos.json", "w") as curPosFile:
         curPosFile.write(json.dumps(curPos, indent = 4))
 
 #Initializing robot's parameters
@@ -31,7 +31,7 @@ travDir = str(arduinoInp[0])
 travDist = float(arduinoInp[1])
 
 #Reading current position from JSON
-with open(os.getcwd()+"/curPos.json", "r") as curPosFile:
+with open(os.getcwd()+"/CurPos.json", "r") as curPosFile:
     curPos = json.load(curPosFile)
     curPos["direction"] = float(curPos["direction"])
     curPos["position"]["x"] = float(curPos["position"]["x"])
@@ -55,7 +55,7 @@ elif travDir == "R" or travDir == "L":
     curPos["direction"] += deltaDir
 
 #Updating new position to JSON
-with open(os.getcwd()+"/curPos.json", "w") as curPosFile:
+with open(os.getcwd()+"/CurPos.json", "w") as curPosFile:
     curPosFile.write(json.dumps(curPos, indent = 4))
 
-#resetCurPos(0,0,90)
+resetCurPos(0,0,90)
