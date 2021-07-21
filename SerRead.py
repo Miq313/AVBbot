@@ -1,5 +1,8 @@
 import serial
-import time
+import os
+import json
+
+import MPS
 
 with open(os.getcwd()+"/Config.json", "r") as configFile:
     config = json.load(configFile)
@@ -8,9 +11,7 @@ with open(os.getcwd()+"/Config.json", "r") as configFile:
 ser = serial.Serial(serialPort, 9600, timeout=1)
 ser.flush()
 
-#place all inside loop
-#how to receive commands without calling entire file each time?
-#x = bytes("F:10\n", 'utf-8')
-ser.write(b"F:10\n")
-print("F:10\n")
-
+while True:
+    if ser.in_waiting > 0:
+        arduOutput = ser.readline().decode('utf-8').rstrip()
+        MPS.updatePos(arduOutput)
