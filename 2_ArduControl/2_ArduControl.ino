@@ -10,6 +10,7 @@ const int trigPin = 8;
 const int echoPin = 7;
 long duration;
 int distance;
+int stepsTraveled;
 
 void setup() 
 {
@@ -113,7 +114,7 @@ void loop()
       } 
       //Printing the amount of steps traveled 
       char traveled[10];
-      sprintf(traveled, "F:%d", stepsTraveled);     
+      sprintf(traveled, "B:%d", stepsTraveled);     
       Serial.print(traveled);       
     }
     else if(command == "L")     //Left
@@ -144,7 +145,7 @@ void loop()
       } 
       //Printing the amount of steps traveled 
       char traveled[10];
-      sprintf(traveled, "F:%d", stepsTraveled);     
+      sprintf(traveled, "L:%d", stepsTraveled);     
       Serial.print(traveled);           
     }
     else if(command == "R")     //Right
@@ -175,7 +176,7 @@ void loop()
       } 
       //Printing the amount of steps traveled 
       char traveled[10];
-      sprintf(traveled, "F:%d", stepsTraveled);     
+      sprintf(traveled, "R:%d", stepsTraveled);     
       Serial.print(traveled);           
     }
   } 
