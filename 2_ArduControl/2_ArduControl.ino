@@ -71,26 +71,112 @@ void loop()
         digitalWrite(trigPin, LOW);
 
         duration = pulseIn(echoPin, HIGH);
-        distance = duration*0.034/2;
+        distance = duration*0.034/2;          //Measurement in cm
 
+        //Collision
         if (distance <= 10)
         {
-          delay(1000000);
+        stepsTraveled = i;
+        i = steps;          
         }
       }
+      //Printing the amount of steps traveled 
+      char traveled[10];
+      sprintf(traveled, "F:%d", stepsTraveled);     
+      Serial.print(traveled);
     }
     else if (command == "B")    //Backward
     {
       for (int i=0;i<steps;i++)
       {
+        //Stepper Motor
         leftmotor.step(1, BACKWARD, SINGLE); 
-        rightmotor.step(1, BACKWARD, SINGLE);  
-      }  
-    }
-    
-    delay(500);
-  }
+        rightmotor.step(1, BACKWARD, SINGLE); 
 
-  
-  
+        //Ultra Sonic Sensor
+        digitalWrite(trigPin, LOW);
+        delayMicroseconds(2);
+
+        digitalWrite(trigPin, HIGH);
+        delayMicroseconds(10);
+        digitalWrite(trigPin, LOW);
+
+        duration = pulseIn(echoPin, HIGH);
+        distance = duration*0.034/2;          //Measurement in cm
+
+        //Collision
+        if (distance <= 10)
+        {
+        stepsTraveled = i;
+        i = steps;          
+        }
+      } 
+      //Printing the amount of steps traveled 
+      char traveled[10];
+      sprintf(traveled, "F:%d", stepsTraveled);     
+      Serial.print(traveled);       
+    }
+    else if(command == "L")     //Left
+    {
+      for (int i=0;i<steps;i++)
+      {
+        //Stepper Motor
+        leftmotor.step(1, BACKWARD, SINGLE); 
+        rightmotor.step(1, FORWARD, SINGLE); 
+
+        //Ultra Sonic Sensor
+        digitalWrite(trigPin, LOW);
+        delayMicroseconds(2);
+
+        digitalWrite(trigPin, HIGH);
+        delayMicroseconds(10);
+        digitalWrite(trigPin, LOW);
+
+        duration = pulseIn(echoPin, HIGH);
+        distance = duration*0.034/2;          //Measurement in cm
+
+        //Collision
+        if (distance <= 10)
+        {
+        stepsTraveled = i;
+        i = steps;          
+        }
+      } 
+      //Printing the amount of steps traveled 
+      char traveled[10];
+      sprintf(traveled, "F:%d", stepsTraveled);     
+      Serial.print(traveled);           
+    }
+    else if(command == "R")     //Right
+    {
+      for (int i=0;i<steps;i++)
+      {
+        //Stepper Motor
+        leftmotor.step(1, FORWARD, SINGLE); 
+        rightmotor.step(1, BACKWARD, SINGLE); 
+
+        //Ultra Sonic Sensor
+        digitalWrite(trigPin, LOW);
+        delayMicroseconds(2);
+
+        digitalWrite(trigPin, HIGH);
+        delayMicroseconds(10);
+        digitalWrite(trigPin, LOW);
+
+        duration = pulseIn(echoPin, HIGH);
+        distance = duration*0.034/2;          //Measurement in cm
+
+        //Collision
+        if (distance <= 10)
+        {
+        stepsTraveled = i;
+        i = steps;          
+        }
+      } 
+      //Printing the amount of steps traveled 
+      char traveled[10];
+      sprintf(traveled, "F:%d", stepsTraveled);     
+      Serial.print(traveled);           
+    }
+  } 
 }
