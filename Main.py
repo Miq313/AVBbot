@@ -1,4 +1,5 @@
 import SerWrite
-import MPS
 
-st.resetCurPos(1,1,1)
+#Run SerRead.py in a seperate thread
+command = "F:45"
+SerWrite.serWrite(command)

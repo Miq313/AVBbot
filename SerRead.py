@@ -2,6 +2,8 @@ import serial
 import os
 import json
 
+import MPS
+
 with open(os.getcwd()+"/Config.json", "r") as configFile:
     config = json.load(configFile)
     serialPort = config["serial"]
@@ -9,8 +11,7 @@ with open(os.getcwd()+"/Config.json", "r") as configFile:
 ser = serial.Serial(serialPort, 9600, timeout=1)
 ser.flush()
 
-def serWrite(command):
-    command = bytes(command + "\n", 'utf-8')
-    ser.write(command)
-    print("Sent " + command + "to  Ardu")
-
+while True:
+    if ser.in_waiting > 0:
+        arduOutput = ser.readline().decode('utf-8').rstrip()
+        MPS.updatePos(arduOutput)
