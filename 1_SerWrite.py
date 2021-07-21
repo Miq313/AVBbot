@@ -1,5 +1,6 @@
 import serial
-import time
+import os
+import json
 
 with open(os.getcwd()+"/Config.json", "r") as configFile:
     config = json.load(configFile)
@@ -8,9 +9,8 @@ with open(os.getcwd()+"/Config.json", "r") as configFile:
 ser = serial.Serial(serialPort, 9600, timeout=1)
 ser.flush()
 
-#place all inside loop
-#how to receive commands without calling entire file each time?
-#x = bytes("F:10\n", 'utf-8')
-ser.write(b"F:10\n")
-print("F:10\n")
+def serWrite(command):
+    command = bytes(command + "\n", 'utf-8')
+    ser.write(command)
+    print("Sent " + command + "to  Ardu")
 
