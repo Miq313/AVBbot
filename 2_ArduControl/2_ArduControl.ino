@@ -17,8 +17,8 @@ void setup()
   Serial.begin(9600); // set up Serial library at 9600 bps
   
 //Stepper Motor Setup
-  leftmotor.setSpeed(100);  // 100 rpm   
-  rightmotor.setSpeed(100);  // 100 rpm   
+  leftmotor.setSpeed(50);  // 100 rpm   
+  rightmotor.setSpeed(50);  // 100 rpm   
 
 //Ultra Sonic Sensor Setup
   pinMode(trigPin, OUTPUT);
@@ -66,7 +66,6 @@ void loop()
         //Ultra Sonic Sensor
         digitalWrite(trigPin, LOW);
         delayMicroseconds(2);
-
         digitalWrite(trigPin, HIGH);
         delayMicroseconds(10);
         digitalWrite(trigPin, LOW);
@@ -75,16 +74,16 @@ void loop()
         distance = duration*0.034/2;          //Measurement in cm
 
         //Collision
-        if (distance <= 10)
-        {
-        stepsTraveled = i;
-        i = steps;          
-        }
+        //if (distance <= 10)
+        //{
+        //stepsTraveled = i;
+        //i = steps;          
+        //}
       }
       //Printing the amount of steps traveled 
-      char traveled[10];
-      sprintf(traveled, "F:%d", stepsTraveled);     
-      Serial.print(traveled);
+      //char traveled[10];
+      //sprintf(traveled, "F:%d", stepsTraveled);     
+      //Serial.print(traveled);
     }
     else if (command == "B")    //Backward
     {
