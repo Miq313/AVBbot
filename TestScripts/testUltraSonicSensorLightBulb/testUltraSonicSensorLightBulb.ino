@@ -4,7 +4,7 @@
 Servo servo;
 int sound = 250;
 void setup() {
-  pinMode(9, OUTPUT);
+  pinMode(10, OUTPUT);
   Serial.begin (9600);
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
@@ -18,11 +18,11 @@ void loop() {
   digitalWrite(trigPin, LOW);
   duration = pulseIn(echoPin, HIGH);
   distance = (duration/2) / 29.1;
-  if (distance < 5) {
-  digitalWrite(9,LOW);
+  if (distance < 10) {
+  digitalWrite(10,LOW);
   }
   else {
-  digitalWrite(9,HIGH);
+  digitalWrite(10,HIGH);
   }
   delay(500);
 }
