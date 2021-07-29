@@ -1,28 +1,27 @@
 #include <AFMotor.h>
 #include <string.h>
+#include <Wire.h>
 
 //Stepper Motor Setup
 AF_Stepper leftmotor(200, 2); //200 steps, M3&M4
 AF_Stepper rightmotor(200, 1); //200 steps, M1&M2
 
-//Ultra Sonic Sensor Setup
-const int trigPin = 8;
-const int echoPin = 7;
-long duration;
-int distance;
-int stepsTraveled;
+//Ultrasonic Sensor (I2C)
+int distance = 0;
+int stepsTraveled = 0;
 
 void setup() 
 {
+  Wire.begin();
   Serial.begin(9600); // set up Serial library at 9600 bps
   
 //Stepper Motor Setup
   leftmotor.setSpeed(50);  // 100 rpm   
   rightmotor.setSpeed(50);  // 100 rpm   
 
-//Ultra Sonic Sensor Setup
-  pinMode(trigPin, OUTPUT);
-  pinMode(echoPin, OUTPUT); 
+//Ultrasonic Sensor (I2C)
+Wire.begin(9);
+Wire.onReceive(recieveEvent);
 }
 
 //Function to break down the string
@@ -39,8 +38,13 @@ String getValue(String data, char separator, int index)
         strIndex[1] = (i == maxIndex) ? i+1 : i;
     }
   }
-
   return found>index ? data.substring(strIndex[0], strIndex[1]) : "";
+}
+
+//Function for "recieveEvent"
+void recieveEvent(int bytes)
+{
+  distance = Wire.read();
 }
 
 void loop() 
@@ -63,27 +67,17 @@ void loop()
         leftmotor.step(1, FORWARD, SINGLE); 
         rightmotor.step(1, FORWARD, SINGLE);
 
-        //Ultra Sonic Sensor
-        digitalWrite(trigPin, LOW);
-        delayMicroseconds(2);
-        digitalWrite(trigPin, HIGH);
-        delayMicroseconds(10);
-        digitalWrite(trigPin, LOW);
-
-        duration = pulseIn(echoPin, HIGH);
-        distance = duration*0.034/2;          //Measurement in cm
-
-        //Collision
-        //if (distance <= 10)
-        //{
-        //stepsTraveled = i;
-        //i = steps;          
-        //}
+        //Collision Detection
+        if (distance <= 10)
+        {
+          stepsTraveled = i;
+          i = steps;          
+        }
       }
       //Printing the amount of steps traveled 
-      //char traveled[10];
-      //sprintf(traveled, "F:%d", stepsTraveled);     
-      //Serial.print(traveled);
+      char traveled[10];
+      sprintf(traveled, "F:%d", stepsTraveled);     
+      Serial.print(traveled);
     }
     else if (command == "B")    //Backward
     {
@@ -93,22 +87,11 @@ void loop()
         leftmotor.step(1, BACKWARD, SINGLE); 
         rightmotor.step(1, BACKWARD, SINGLE); 
 
-        //Ultra Sonic Sensor
-        digitalWrite(trigPin, LOW);
-        delayMicroseconds(2);
-
-        digitalWrite(trigPin, HIGH);
-        delayMicroseconds(10);
-        digitalWrite(trigPin, LOW);
-
-        duration = pulseIn(echoPin, HIGH);
-        distance = duration*0.034/2;          //Measurement in cm
-
         //Collision
         if (distance <= 10)
         {
-        stepsTraveled = i;
-        i = steps;          
+          stepsTraveled = i;
+          i = steps;          
         }
       } 
       //Printing the amount of steps traveled 
@@ -124,22 +107,11 @@ void loop()
         leftmotor.step(1, BACKWARD, SINGLE); 
         rightmotor.step(1, FORWARD, SINGLE); 
 
-        //Ultra Sonic Sensor
-        digitalWrite(trigPin, LOW);
-        delayMicroseconds(2);
-
-        digitalWrite(trigPin, HIGH);
-        delayMicroseconds(10);
-        digitalWrite(trigPin, LOW);
-
-        duration = pulseIn(echoPin, HIGH);
-        distance = duration*0.034/2;          //Measurement in cm
-
         //Collision
         if (distance <= 10)
         {
-        stepsTraveled = i;
-        i = steps;          
+          stepsTraveled = i;
+          i = steps;          
         }
       } 
       //Printing the amount of steps traveled 
@@ -154,18 +126,7 @@ void loop()
         //Stepper Motor
         leftmotor.step(1, FORWARD, SINGLE); 
         rightmotor.step(1, BACKWARD, SINGLE); 
-
-        //Ultra Sonic Sensor
-        digitalWrite(trigPin, LOW);
-        delayMicroseconds(2);
-
-        digitalWrite(trigPin, HIGH);
-        delayMicroseconds(10);
-        digitalWrite(trigPin, LOW);
-
-        duration = pulseIn(echoPin, HIGH);
-        distance = duration*0.034/2;          //Measurement in cm
-
+        
         //Collision
         if (distance <= 10)
         {
