@@ -10,8 +10,6 @@ ser = serial.Serial(serialPort, 9600, timeout=1)
 ser.flush()
 
 def serWrite(command):
-    commandByt = bytes(command + "\n", 'utf-8')
+    commandByt = bytes(command + ";", 'utf-8')
     ser.write(commandByt)
     print("Sent " + command + " to  ArduControl")
-
-serWrite("F:200")

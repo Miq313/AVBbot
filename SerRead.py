@@ -1,7 +1,9 @@
 import serial
 import os
 import json
+import time
 
+import SerWrite
 import MPS
 
 with open(os.getcwd()+"/Config.json", "r") as configFile:
@@ -13,5 +15,10 @@ ser.flush()
 
 while True:
     if ser.in_waiting > 0:
-        arduOutput = ser.readline().decode('utf-8').rstrip()
-        MPS.updatePos(arduOutput)
+        arduOutput = ser.readline().decode('utf-8').rstrip().replace(";", "")
+        print(arduOutput)
+        if arduOutput == "Collision":
+            time.sleep(1)
+            SerWrite.serWrite("Reset")
+        else:
+            MPS.updatePos(arduOutput)

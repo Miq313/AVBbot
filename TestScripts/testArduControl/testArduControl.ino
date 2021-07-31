@@ -55,7 +55,6 @@ void loop()
   //Waiting to recieve string from RPi
   if (Serial.available() > 0) {
     String instruction = Serial.readStringUntil(';');
-    if (collision == false) { 
       //Breaking up the string and saving it into other strings
         String command = getValue(instruction,':',0);
         String value = getValue(instruction,':',1);
@@ -72,38 +71,39 @@ void loop()
     
             //Steps Traveled
             stepsTraveled = i;
-
-            //Collision
-            if (distance <= 10) {
-              i = steps;
-              collision = true;
+    
+            //Collision Detection
+            if (distance <= 10)
+            {
+              i = steps; 
+              collision = true;       
             }
           }
           //Printing the amount of steps traveled 
           char traveled[10];
           sprintf(traveled, "F:%d;", stepsTraveled);     
-          Serial.println(traveled);
+          Serial.print(traveled);
           if (collision == true){
-            Serial.println("Collision;");
+            Serial.print("Collision;");
           }
-          delay(1000);
+          delay(1000); //remove later
         }
         else if (command == "B")    //Backward
         {
-          for (int i=1;i<=steps;i++)
+          for (int i=1;i=steps;i++)
           {
             //Stepper Motor
             leftmotor.step(1, BACKWARD, SINGLE); 
             rightmotor.step(1, BACKWARD, SINGLE); 
     
             //Steps Traveled
-            stepsTraveled = i;              
+            stepsTraveled = i;
           } 
           //Printing the amount of steps traveled 
           char traveled[10];
           sprintf(traveled, "B:%d;", stepsTraveled);     
-          Serial.println(traveled);
-          delay(1000);
+          Serial.print(traveled);
+          delay(1000); // remove later
         }
         else if(command == "L")     //Left
         {
@@ -115,21 +115,18 @@ void loop()
     
             //Steps Traveled
             stepsTraveled = i;
-            
+    
             //Collision
-            if (distance <= 10) {
-              i = steps;
-              collision = true;
+            if (distance <= 10)
+            {
+              i = steps;          
             }
           } 
           //Printing the amount of steps traveled 
           char traveled[10];
           sprintf(traveled, "L:%d;", stepsTraveled);     
-          Serial.println(traveled);
-          if (collision == true){
-            Serial.println("Collision;");
-          }
-          delay(1000);       
+          Serial.print(traveled);
+          delay(1000); //remove later           
         }
         else if(command == "R")     //Right
         {
@@ -141,27 +138,18 @@ void loop()
     
             //Steps Traveled
             stepsTraveled = i;
-            
+           
             //Collision
-            if (distance <= 10) {
-              i = steps;
-              collision = true;
+            if (distance <= 10)
+            {
+            i = steps;          
             }
           } 
           //Printing the amount of steps traveled 
           char traveled[10];
           sprintf(traveled, "R:%d;", stepsTraveled);     
-          Serial.println(traveled);
-          if (collision == true){
-            Serial.println("Collision;");
-          }
-          delay(1000);          
+          Serial.print(traveled);
+          delay(1000); //remove later           
         }
-    } 
-    else if (collision == true) {
-      if (instruction == "Reset") {
-        collision = false;
-      }
     }
-  }
-}
+ }

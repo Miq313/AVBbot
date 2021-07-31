@@ -1,6 +1,6 @@
 //#include <AFMotor.h>
 
-int led = 9;
+int led = 7;
 //AF_Stepper motor1(200,1);
 
 void setup() {
