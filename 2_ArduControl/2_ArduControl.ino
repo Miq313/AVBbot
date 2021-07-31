@@ -20,8 +20,8 @@ void setup()
   rightmotor.setSpeed(50);  // 100 rpm   
 
 //Ultrasonic Sensor (I2C)
-Wire.begin(9);
-Wire.onReceive(recieveEvent);
+  Wire.begin(9);
+  Wire.onReceive(recieveEvent);
 }
 
 //Function to break down the string
