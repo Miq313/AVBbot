@@ -67,10 +67,12 @@ void loop()
         leftmotor.step(1, FORWARD, SINGLE); 
         rightmotor.step(1, FORWARD, SINGLE);
 
+        //Steps Traveled
+        stepsTraveled = i;
+
         //Collision Detection
         if (distance <= 10)
         {
-          stepsTraveled = i;
           i = steps;          
         }
       }
@@ -87,10 +89,12 @@ void loop()
         leftmotor.step(1, BACKWARD, SINGLE); 
         rightmotor.step(1, BACKWARD, SINGLE); 
 
+        //Steps Traveled
+        stepsTraveled = i;
+
         //Collision
         if (distance <= 10)
         {
-          stepsTraveled = i;
           i = steps;          
         }
       } 
@@ -107,10 +111,12 @@ void loop()
         leftmotor.step(1, BACKWARD, SINGLE); 
         rightmotor.step(1, FORWARD, SINGLE); 
 
+        //Steps Traveled
+        stepsTraveled = i;
+
         //Collision
         if (distance <= 10)
         {
-          stepsTraveled = i;
           i = steps;          
         }
       } 
@@ -126,11 +132,13 @@ void loop()
         //Stepper Motor
         leftmotor.step(1, FORWARD, SINGLE); 
         rightmotor.step(1, BACKWARD, SINGLE); 
-        
+
+        //Steps Traveled
+        stepsTraveled = i;
+       
         //Collision
         if (distance <= 10)
         {
-        stepsTraveled = i;
         i = steps;          
         }
       } 
