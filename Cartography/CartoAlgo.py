@@ -37,41 +37,36 @@ def intersects(seg1, seg2):
 
     return False
 
-print(intersects((),())
+spatialData = [
+    ((8,4),(4,2)),
+    ((10,4),(8,2)),
+    ((11,4),(12,2)),
+    ((12,4),(3,9)),
+    ((7,4),(14,6)),
+    ((5,4),(11,8)),
+    ((4,4),(7,8)),
+    ((4,5),(6,10))
+]
+wallPoints = []
+for line in spatialData:
+    wallPoints.append(line[1])
+for spacePoint,wallPoint in spatialData:
+    a,b = spacePoint
+    x,y = wallPoint
+    plt.plot([a,x],[b,y], color='#000000')
 
-# spatialData = [
-#     ((8,4),(4,2)),
-#     ((10,4),(8,2)),
-#     ((11,4),(12,2)),
-#     ((12,4),(3,9)),
-#     ((14,6),(7,4)),
-#     ((11,8),(5,4)),
-#     ((7,8),(4,4)),
-#     ((6,10),(4,5))
-# ]
-# wallPoints = []
-# for line in spatialData:
-#     wallPoints.append(line[1])
-# for p,q in spatialData:
-#     a,b = p
-#     x,y = q
-#     plt.plot([a,x],[b,y], color='#000000')
+wall = []
+for point1 in wallPoints:
+    for point2 in wallPoints:
+        if point1 != point2:
+            wallLine = (point1,point2)
+            isCorrect = True
+            for spaceLine in spatialData:
+                if intersects(wallLine,spaceLine) and len(set([point1, point2, spaceLine[0], spaceLine[1]])) == 4:
+                    isCorrect = False
+                    plt.plot([point1[0],point2[0]],[point1[1],point2[1]], color='r', linewidth=0.5)
+            if isCorrect:
+                wall.append(wallLine)
+                plt.plot([point1[0],point2[0]],[point1[1],point2[1]], color='g')
 
-# wall = []
-# for point1 in wallPoints:
-#     print(point1)
-#     for point2 in wallPoints:
-#         if point1 != point2:
-#             wallLine = (point1,point2)
-#             isCorrect = True
-#             for spaceLine in spatialData:
-#                 if intersects(wallLine,spaceLine):
-#                     isCorrect = False
-#                     plt.plot([point1[0],point2[0]],[point1[1],point2[1]], color='r', linewidth=0.5)
-#             if isCorrect:
-#                 wall.append(wallLine)
-
-# for line in set(wall):
-#     print(line)
-
-# plt.show()
+plt.show()
