@@ -13,12 +13,13 @@ with open(os.getcwd()+"/Config.json", "r") as configFile:
 ser = serial.Serial(serialPort, 9600, timeout=1)
 ser.flush()
 
-while True:
-    if ser.in_waiting > 0:
-        arduOutput = ser.readline().decode('utf-8').rstrip().replace(";", "")
-        print(arduOutput)
-        if arduOutput == "Collision":
-            time.sleep(1)
-            SerWrite.serWrite("Reset")
-        else:
-            MPS.updatePos(arduOutput)
+def serRead():
+    while True:
+        if ser.in_waiting > 0:
+            arduOutput = ser.readline().decode('utf-8').rstrip().replace(";", "")
+            print(arduOutput)
+            if arduOutput == "Collision":
+                time.sleep(1)
+                SerWrite.serWrite("Reset")
+            else:
+                MPS.updatePos(arduOutput)
