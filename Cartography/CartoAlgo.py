@@ -53,7 +53,7 @@ for line in spatialData:
 for spacePoint,wallPoint in spatialData:
     a,b = spacePoint
     x,y = wallPoint
-    plt.plot([a,x],[b,y], color='#000000')
+    #plt.plot([a,x],[b,y], color='#000000')
 
 wall = []
 for point1 in wallPoints:
@@ -64,9 +64,11 @@ for point1 in wallPoints:
             for spaceLine in spatialData:
                 if intersects(wallLine,spaceLine) and len(set([point1, point2, spaceLine[0], spaceLine[1]])) == 4:
                     isCorrect = False
-                    plt.plot([point1[0],point2[0]],[point1[1],point2[1]], color='r', linewidth=0.5)
+                    
+                    #plt.plot([point1[0],point2[0]],[point1[1],point2[1]], color='r', linewidth=0.5)
             if isCorrect:
                 wall.append(wallLine)
                 plt.plot([point1[0],point2[0]],[point1[1],point2[1]], color='g')
+                print(wallLine)
 
 plt.show()
