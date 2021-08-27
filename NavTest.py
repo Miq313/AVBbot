@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 
-
 def on_segment(p, q, r):
     if r[0] <= max(p[0], q[0]) and r[0] >= min(p[0], q[0]) and r[1] <= max(p[1], q[1]) and r[1] >= min(p[1], q[1]):
         return True
@@ -51,14 +50,14 @@ wallData = [
     ((14,8),(6,8)),
     ((6,8),(6,14)),
     ((6,14),(3,14)),
-    ((3,14),(3,2))
+    ((3,14),(3,2)),
 
-    # ((5,5),(7,5)),
-    # ((7,5),(7,6)),
-    # ((7,6),(5,6)),
-    # ((5,6),(5,5))
+    ((4,5),(7,5)),
+    ((7,5),(7,6)),
+    ((7,6),(4,6)),
+    ((4,6),(4,5))
 ]
-navPoints = ((11,4),(4,12))
+navPoints = ((9,4),(4,12))
 gridPoints = [
     (4,7),
     (5,7),
@@ -81,7 +80,15 @@ def connectToGridPoints(pointA, gridPoints):
         if intersectsWall(potentialSegment, wallData) == False:
             potentialSegments.append(potentialSegment)
     return potentialSegments
-        
+
+def connectToEnd(previousSegments, pointB):
+    finalSegments = []
+    for a,gridPoint in previousSegments:
+        potentialSegment = (gridPoint,pointB)
+        if intersectsWall(potentialSegment, wallData) == False:
+            finalSegments.append(potentialSegment)
+    return finalSegments
+
 
 numLineSegments = 1
 if intersectsWall(navPoints,wallData):
@@ -89,27 +96,64 @@ if intersectsWall(navPoints,wallData):
 else:
     pathFailed = False
 
-
 while pathFailed:
-    numLineSegments += 1
-    potentialPaths = []
-    for lineSegment in range(1,numLineSegments+1):
-        if lineSegment == 1: #First segment
-            pointA = navPoints[0]
-            potentialSegments = connectToGridPoints(pointA,gridPoints)
-            for pointA,pointB in potentialSegments:
-                if intersectsWall((pointB,navPoints[1]),wallData) == False:
-                    potentialPaths.append((pointA,pointB,navPoints[1]))
-            if len(potentialPaths) > 0:
+    if numLineSegments == 1: #First segment
+        pointA = navPoints[0]
+        potentialSegments = connectToGridPoints(pointA,gridPoints)
+        finalSegments = connectToEnd(potentialSegments,navPoints[1])
+        if len(finalSegments)>0:
+            pathFailed = False
+    else:
+        for potentialSegment in potentialSegments:
+            pointA = potentialSegment[1] #Succesful gridPoint
+            potentialSegments = potentialSegments + connectToGridPoints(pointA,gridPoints)
+            finalSegments = connectToEnd(potentialSegments,navPoints[1])
+            if len(finalSegments)>0:
                 pathFailed = False
+    numLineSegments += 1
+
+for segmentNum in range(1,numLineSegments+1): #Going backwards, from B to A
+    if segmentNum == 1:
+        for finalSegment in finalSegments:
+            for potentialSegment in potentialSegments:
+                if finalSegment[0] != potentialSegment[1]:
+                    potentialSegments.remove(potentialSegment)
+
+successfulSegments = potentialSegments + finalSegments
+for successfulSegment in successfulSegments:
+    if intersectsWall(successfulSegment, wallData):
+        successfulSegments.remove(successfulSegment)
+
+#[((7, 7), (6, 7)), ((4, 7), (4, 12)), ((5, 7), (4, 12)), ((6, 7), (4, 12))]
+
+for path in successfulSegments:
+    xPoints = [navPoints[0][0]] #Point A
+    yPoints = [navPoints[0][1]] #Point A
+    for point in path:
+        xPoints.append(point[0]) #Intermediate points
+        yPoints.append(point[1]) #Intermediate points
+    xPoints.append(navPoints[1][0]) #Point B
+    yPoints.append(navPoints[1][1]) #Point B
+    plt.plot(xPoints,yPoints)
+    print(path)
 
 for wallLine in wallData:
-    plt.plot([wallLine[0][0],wallLine[1][0]],[wallLine[0][1],wallLine[1][1]])
-for pathSegment in potentialPaths:
-    plt.plot([pathSegment[0][0],pathSegment[1][0],pathSegment[2][0]],[pathSegment[0][1],pathSegment[1][1],pathSegment[2][1]])
+    plt.plot([wallLine[0][0],wallLine[1][0]],[wallLine[0][1],wallLine[1][1]], color="b")
 
 plt.show()
 
+# while pathFailed:
+#     numLineSegments += 1
+#     potentialPaths = []
+#     for lineSegment in range(1,numLineSegments+1):
+#         if lineSegment == 1: #First segment
+#             pointA = navPoints[0]
+#             potentialSegments = connectToGridPoints(pointA,gridPoints)
+#             for pointA,pointB in potentialSegments:
+#                 if intersectsWall((pointB,navPoints[1]),wallData) == False:
+#                     potentialPaths.append((pointA,pointB,navPoints[1]))
+#             if len(potentialPaths) > 0
+#                 pathFailed = False
 
 # while pathFailed:
 #     numLineSegments += 1
