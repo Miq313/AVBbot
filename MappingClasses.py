@@ -12,6 +12,12 @@ class Point(object):
     def __str__(self):
         pointStr = "(%f,%f)" % (self.x, self.y)
         return pointStr
+
+    def __eq__(self, other):
+        return self.x == other.x and self.y == other.y
+
+    def __hash__(self):
+        return hash((self.x,self.y))
 	
 class Line(object):
     def __init__(self, p1, p2):
@@ -29,6 +35,13 @@ class Line(object):
         x2,y2 = self.p2.x,self.p2.y
         lineStr = "((%f,%f),(%f,%f))" % (x1,y1,x2,y2)
         return lineStr
+
+    #Note that the same line backwards will return False. Lines are treated as vectors (with direction)
+    def __eq__(self, other):
+        return self.p1 == other.p1 and self.p2 == other.p2
+
+    def __hash__(self):
+        return hash(self.p1,self.p2)
 
     def length(self):
         return  math.sqrt(abs(self.delX)**2 + abs(self.delY)**2)
