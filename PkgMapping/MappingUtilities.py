@@ -1,4 +1,4 @@
-from MappingClasses import Point,Line
+from PkgMapping.MappingClasses import Point,Line
 
 def onSegment(seg, point):
     if point.x <= max(seg.p1.x, seg.p2.x) and point.x >= min(seg.p1.x, seg.p2.x) and point.y <= max(seg.p1.y, seg.p2.y) and point.y >= min(seg.p1.y, seg.p2.y):

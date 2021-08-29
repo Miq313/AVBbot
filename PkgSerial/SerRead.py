@@ -3,7 +3,7 @@ import os
 import json
 import time
 
-from SerWrite import serWrite
+from PkgSerial.SerWrite import serWrite
 from ..PkgMapping.MPS import updateCurPos
 
 with open(os.getcwd()+"/Config.json", "r") as configFile:
