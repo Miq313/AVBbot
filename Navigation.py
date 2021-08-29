@@ -2,7 +2,6 @@ import math
 import matplotlib.pyplot as plt
 
 from PkgMapping.MappingClasses import Point,Line
-from PkgMapping.MappingUtilities import intersects
 
 #HARDCODED TEST VALUES
 wallData = [
@@ -36,9 +35,9 @@ numYPoints = int((math.ceil(yMax) - math.floor(yMin))/10)
 gridPoints = []
 for xPoints in range(0,numXPoints):
     for yPoints in range(0,numYPoints):
-        gridPoints.append(Point(math.floor(xMin)+10*xPoints, math.floor(yMin)+10*yPoints))
-
-for gridPoint in gridPoints:
-    plt.scatter(gridPoint.x, gridPoint.y, color="y")
+        xPoint = math.floor(xMin)+10*xPoints
+        yPoint = math.floor(yMin)+10*yPoints
+        gridPoints.append(Point(xPoint, yPoint))
+        plt.scatter(xPoint,yPoint, color="y")
 
 plt.show()

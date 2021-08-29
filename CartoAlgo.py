@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 from PkgMapping.MappingClasses import Point,Line
-from PkgMapping.MappingUtilities import intersects
 
 #Raw data input (pulled from Arduino)
 rawData = [
@@ -32,7 +31,7 @@ for wallPoint in wallPoints:
             proposedWallLine = Line(wallPoint,wallPointConnecting)
             isCorrect = True
             for spatialLine in spatialLines:
-                if intersects(proposedWallLine,spatialLine) and len(set([proposedWallLine.p1, proposedWallLine.p2, spatialLine.p1, spatialLine.p2])) == 4: #If intersects, but not including when intersects by the two lines sharing an endpoint
+                if proposedWallLine.intersects(spatialLine) and len(set([proposedWallLine.p1, proposedWallLine.p2, spatialLine.p1, spatialLine.p2])) == 4: #If intersects, but not including when intersects by the two lines sharing an endpoint
                     isCorrect = False
                     plt.plot([proposedWallLine.p1.x,proposedWallLine.p2.x],[proposedWallLine.p1.y,proposedWallLine.p2.y], color='r', linewidth=0.5)
             if isCorrect:
