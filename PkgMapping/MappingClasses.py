@@ -6,12 +6,12 @@ class Point(object):
         self.y = float(y)
 	
     def __repr__(self):
-        coordinates = (self.x,self.y)
+        coordinates = str((self.x,self.y))
         return coordinates
 	
     def __str__(self):
-        pointStr = "(%f,%f)" % (self.x, self.y)
-        return pointStr
+        coordinates = str((self.x,self.y))
+        return coordinates
 
     def __eq__(self, other):
         return self.x == other.x and self.y == other.y
@@ -27,14 +27,12 @@ class Line(object):
         self.delY = self.p2.y - self.p1.y
 	
     def __repr__(self):
-        coordinates = ((self.p1.x,self.p1.y),(self.p2.x,self.p2.y))
+        coordinates = str(((self.p1.x,self.p1.y),(self.p2.x,self.p2.y)))
         return coordinates
 
     def __str__(self):
-        x1,y1 = self.p1.x,self.p1.y
-        x2,y2 = self.p2.x,self.p2.y
-        lineStr = "((%f,%f),(%f,%f))" % (x1,y1,x2,y2)
-        return lineStr
+        coordinates = str(((self.p1.x,self.p1.y),(self.p2.x,self.p2.y)))
+        return coordinates
 
     #Note that the same line backwards will return False. Lines are treated as vectors (with direction)
     def __eq__(self, other):
