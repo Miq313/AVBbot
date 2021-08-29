@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
-from MappingClasses import Point,Line
-from MappingUtilities import intersects
+from PkgMapping.MappingClasses import Point,Line
+from PkgMapping.MappingUtilities import intersects
 
 #Raw data input (pulled from Arduino)
 rawData = [

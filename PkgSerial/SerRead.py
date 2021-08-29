@@ -3,8 +3,8 @@ import os
 import json
 import time
 
-import SerWrite
-import MPS
+from SerWrite import serWrite
+from ..PkgMapping.MPS import updatePos
 
 with open(os.getcwd()+"/Config.json", "r") as configFile:
     config = json.load(configFile)
@@ -13,13 +13,13 @@ with open(os.getcwd()+"/Config.json", "r") as configFile:
 ser = serial.Serial(serialPort, 9600, timeout=1)
 ser.flush()
 
-def serRead():
+def serReadAndUpdateMPS():
     while True:
         if ser.in_waiting > 0:
             arduOutput = ser.readline().decode('utf-8').rstrip().replace(";", "")
             print(arduOutput)
             if arduOutput == "Collision":
                 time.sleep(1)
-                SerWrite.serWrite("Reset")
+                serWrite("Reset")
             else:
-                MPS.updatePos(arduOutput)
+                updatePos(arduOutput)

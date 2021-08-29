@@ -1,3 +1,5 @@
-from MappingClasses import Point,Line
+import os
 
-print(1!=2!=1)
+#print("/".join(os.getcwd().split("/").pop()))
+
+print("/".join(os.getcwd().split("/")[0:-1])+"/CurPos.json")

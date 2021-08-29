@@ -13,6 +13,8 @@ def resetCurPos(x, y, dir):
         }
     with open(os.getcwd()+"/CurPos.json", "w") as curPosFile:
         curPosFile.write(json.dumps(curPos, indent = 4))
+# If it needs to get CurPos.json from parent dir:
+## "/".join(os.getcwd().split("/")[0:-1])+"/CurPos.json"
 
 #Initializing robot's parameters
 wheelDiameter = float(67.4) #mm
