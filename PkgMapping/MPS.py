@@ -28,7 +28,7 @@ def resetCurPos(x, y, dir):
     with open(os.getcwd()+"/CurPos.json", "w") as curPosFile:
         curPosFile.write(json.dumps(curPos, indent = 4))
 
-def updatePos(arduResponse):
+def updateCurPos(arduResponse):
     #Reading input from arduino
     arduinoInp = arduResponse
     arduinoInp = arduinoInp.split(":")
@@ -44,8 +44,8 @@ def updatePos(arduResponse):
 
     #Calculating change in position
     if travDir == "F" or travDir == "B":
-        deltaX = math.sin(math.radians(curPos["direction"]))*travDist*stepDistance
-        deltaY = math.cos(math.radians(curPos["direction"]))*travDist*stepDistance
+        deltaX = math.cos(math.radians(curPos["direction"]))*travDist*stepDistance
+        deltaY = math.sin(math.radians(curPos["direction"]))*travDist*stepDistance
         if travDir == "B":
             deltaX = -deltaX
             deltaY = -deltaY
