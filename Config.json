@@ -1,3 +1,10 @@
 {
-    "serial": "/dev/ttyACM0"
+    "hardware": {
+        "wheelDiameter": 67.4,
+        "stepAngle": 1.8,
+        "axelLength": 100.0
+    },
+    "communications": {
+        "serialPort1": "/dev/ttyACM0"
+    }
 }

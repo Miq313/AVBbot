@@ -2,6 +2,20 @@ import math
 import json
 import os
 
+#Initializing robot's parameters
+with open(os.getcwd()+"/Config.json", "r") as configFile:
+    # If it needs to get CurPos.json from parent dir:
+    ## "/".join(os.getcwd().split("/")[0:-1])+"/CurPos.json"
+    config = json.load(configFile)
+    wheelDiameter = float(config["hardware"]["wheelDiameter"]) #mm
+    stepAngle = math.radians(float(config["hardware"]["stepAngle"])) #rads
+    axelLength = float(config["hardware"]["axelLength"]) #mm
+
+#Calculating other robot parameters
+wheelRadius = wheelDiameter/2
+stepDistance = stepAngle*wheelRadius
+axelRadius = axelLength/2
+
 #Reset position in the JSON file
 def resetCurPos(x, y, dir):
     curPos = {
@@ -13,18 +27,6 @@ def resetCurPos(x, y, dir):
         }
     with open(os.getcwd()+"/CurPos.json", "w") as curPosFile:
         curPosFile.write(json.dumps(curPos, indent = 4))
-# If it needs to get CurPos.json from parent dir:
-## "/".join(os.getcwd().split("/")[0:-1])+"/CurPos.json"
-
-#Initializing robot's parameters
-wheelDiameter = float(67.4) #mm
-stepAngle = math.radians(1.8) #rads
-axelLength = float(100) #mm
-
-#Calculating other robot parameters
-wheelRadius = wheelDiameter/2
-stepDistance = stepAngle*wheelRadius
-axelRadius = axelLength/2
 
 def updatePos(arduResponse):
     #Reading input from arduino

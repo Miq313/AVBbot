@@ -8,7 +8,7 @@ from ..PkgMapping.MPS import updatePos
 
 with open(os.getcwd()+"/Config.json", "r") as configFile:
     config = json.load(configFile)
-    serialPort = config["serial"]
+    serialPort = config["communications"]["serialPort1"]
     
 ser = serial.Serial(serialPort, 9600, timeout=1)
 ser.flush()
