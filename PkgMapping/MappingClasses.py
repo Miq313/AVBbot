@@ -1,5 +1,5 @@
 import math
-
+import matplotlib.pyplot as plt
 class Point(object):
     def __init__(self, x, y):
         self.x = float(x)
@@ -18,6 +18,19 @@ class Point(object):
 
     def __hash__(self):
         return hash((self.x,self.y))
+
+    def plot(self, color="black"):
+        plt.scatter(self.x, self.y, color=color)
+
+    def connectToGrid(self, gridPoints, wallLines, omittedPoints = []):
+        proposedSegments = []
+        for omittedPoint in omittedPoints:
+            if omittedPoint in gridPoints:
+                gridPoints.remove(omittedPoint)
+        for gridPoint in gridPoints:
+            if Line(self,gridPoint).intersectsWall(wallLines) == False:
+                proposedSegments.append(Line(self,gridPoint))
+        return proposedSegments
 	
 class Line(object):
     def __init__(self, p1, p2):
@@ -31,7 +44,7 @@ class Line(object):
         return coordinates
 
     def __str__(self):
-        coordinates = str(((self.p1.x,self.p1.y),(self.p2.x,self.p2.y)))
+        coordinates = f"({self.p1.x}, {self.p1.y}) -> ({self.p2.x}, {self.p2.y})"
         return coordinates
 
     #Note that the same line backwards will return False. Lines are treated as vectors (with direction)
@@ -40,6 +53,9 @@ class Line(object):
 
     def __hash__(self):
         return hash(self.p1,self.p2)
+
+    def plot(self, color="black"):
+        plt.plot([self.p1.x,self.p2.x],[self.p1.y,self.p2.y], color=color)
 
     def length(self):
         return  math.sqrt(abs(self.delX)**2 + abs(self.delY)**2)
@@ -85,4 +101,10 @@ class Line(object):
         if o4 == 0 and other.onSegment(self.p2): 
             return True
 
+        return False
+
+    def intersectsWall(self, wallLines):
+        for wallLine in wallLines:
+            if self.intersects(wallLine):
+                return True
         return False
