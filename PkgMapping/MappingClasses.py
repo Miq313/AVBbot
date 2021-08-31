@@ -52,7 +52,7 @@ class Line(object):
         return self.p1 == other.p1 and self.p2 == other.p2
 
     def __hash__(self):
-        return hash(self.p1,self.p2)
+        return hash((self.p1,self.p2))
 
     def plot(self, color="black"):
         plt.plot([self.p1.x,self.p2.x],[self.p1.y,self.p2.y], color=color)

@@ -1,6 +1,6 @@
 import math
 import matplotlib.pyplot as plt #Only used for p/t.show() at the end. all other commands can be used as Point/Line methods
-import time
+from datetime import datetime
 
 from PkgMapping.MappingClasses import Point,Line
 
@@ -36,8 +36,8 @@ for wallLine in wallLines:
 numXPoints = int((math.ceil(xMax) - math.floor(xMin))/10)
 numYPoints = int((math.ceil(yMax) - math.floor(yMin))/10)
 gridPoints = []
-for xPoints in range(0,numXPoints):
-    for yPoints in range(0,numYPoints):
+for xPoints in range(0,numXPoints+1):
+    for yPoints in range(0,numYPoints+1):
         xPoint = math.floor(xMin)+10*xPoints
         yPoint = math.floor(yMin)+10*yPoints
         gridPoint = Point(xPoint, yPoint)
@@ -45,15 +45,19 @@ for xPoints in range(0,numXPoints):
         gridPoints.append(gridPoint)
 
 #
+time1 = datetime.now()
 lastPoints = [navPointA]
 navPaths = []
 segmentCount = 0
+allSegments = []
 while len(navPaths) == 0:
     segmentCount += 1
+    segments = []
     for lastPoint in lastPoints:
         proposedLine = Line(lastPoint, navPointB)
         if proposedLine.intersectsWall(wallLines) == False:
             navPaths.append(proposedLine)
+            segments.append(proposedLine)
             proposedLine.plot("green")
     lastPoints2 = lastPoints
     lastPoints = []
@@ -62,6 +66,7 @@ while len(navPaths) == 0:
             proposedLines = lastPoint.connectToGrid(gridPoints, wallLines, lastPoints2)
             for proposedLine in proposedLines:
                 lastPoints.append(proposedLine.p2)
+                segments.append(proposedLine)
                 if segmentCount == 1:
                     proposedLine.plot("blue")
                 elif segmentCount == 2:
@@ -70,8 +75,14 @@ while len(navPaths) == 0:
                     proposedLine.plot("purple")
                 elif segmentCount == 1:
                     proposedLine.plot("green")
-print(segmentCount)
+    allSegments.append(segments)
 
+# for segmentGroup in reversed(range(1,len(allSegments))):
+#     curSegment = set(allSegments[segmentGroup])
+#     for 
+#     nxtSegment = set(allSegments[segmentGroup-1])
+delta = datetime.now() - time1
+print(delta.seconds)
 navPointA.plot("r")
 navPointB.plot("r")
 plt.show()

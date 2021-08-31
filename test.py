@@ -17,15 +17,11 @@ wallLines = [
     Line(Point(0,0),Point(10,0)),
     Line(Point(10,0),Point(10,10)),
     Line(Point(10,10),Point(0,10)),
-    Line(Point(0,10),Point(0,0))    
+    Line(Point(0,10),Point(0,0)),
+    Line(Point(0,10),Point(0,0))
 ]
 
-a = Point(5,5)
-a.plot()
 
-b = [Point(1,1),Point(2,2)]
-connect = a.connectToGrid(gridPoints, wallLines, b)
-for line in connect:
-    line.plot()
+print(set(wallLines))
 
 plt.show()
