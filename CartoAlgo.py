@@ -1,5 +1,4 @@
-import matplotlib.pyplot as plt
-from PkgMapping.MappingClasses import Point,Line
+from PkgMapping.MappingClasses import Point,Line,showPlot
 
 #Raw data input (pulled from Arduino)
 rawData = [
@@ -21,7 +20,7 @@ for line in rawData:
 
 #Plot spatialLines for visualization purposes
 for spatialLine in spatialLines:
-    plt.plot([spatialLine.p1.x, spatialLine.p2.x],[spatialLine.p1.y, spatialLine.p2.y], color='#000000')
+    spatialLine.plot(color='black')
 
 #Creating wall parameters by connecting all wallpoints with each other and checking which don't intersect with spatialLines
 wallLines = []
@@ -33,9 +32,9 @@ for wallPoint in wallPoints:
             for spatialLine in spatialLines:
                 if proposedWallLine.intersects(spatialLine) and len(set([proposedWallLine.p1, proposedWallLine.p2, spatialLine.p1, spatialLine.p2])) == 4: #If intersects, but not including when intersects by the two lines sharing an endpoint
                     isCorrect = False
-                    plt.plot([proposedWallLine.p1.x,proposedWallLine.p2.x],[proposedWallLine.p1.y,proposedWallLine.p2.y], color='r', linewidth=0.5)
+                    proposedWallLine.plot(color='r', linewidth=0.5)
             if isCorrect:
                 wallLines.append(proposedWallLine)
-                plt.plot([proposedWallLine.p1.x,proposedWallLine.p2.x],[proposedWallLine.p1.y,proposedWallLine.p2.y], color='g')
+                proposedWallLine.plot(color='g', linewidth=2)
 
-plt.show()
+showPlot()

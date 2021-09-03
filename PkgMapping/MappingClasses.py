@@ -54,8 +54,8 @@ class Line(object):
     def __hash__(self):
         return hash((self.p1,self.p2))
 
-    def plot(self, color="black"):
-        plt.plot([self.p1.x,self.p2.x],[self.p1.y,self.p2.y], color=color)
+    def plot(self, color="black", linewidth=1):
+        plt.plot([self.p1.x,self.p2.x],[self.p1.y,self.p2.y], color=color, linewidth=linewidth)
 
     def length(self):
         return  math.sqrt(abs(self.delX)**2 + abs(self.delY)**2)
@@ -67,6 +67,8 @@ class Line(object):
         return directionOfLine
 
     def slope(self):
+        if self.delX == 0:
+            return None
         return self.delY/self.delX
 
     def onSegment(self, point):
@@ -108,3 +110,11 @@ class Line(object):
             if self.intersects(wallLine):
                 return True
         return False
+
+    def connectsTo(self, other):
+        if self.p1 == other.p1 or self.p1 == other.p2 or self.p2 == other.p1 or self.p2 == other.p2:
+            return True
+        return False
+
+def showPlot():
+    plt.show()

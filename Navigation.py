@@ -1,8 +1,7 @@
 import math
-import matplotlib.pyplot as plt #Only used for p/t.show() at the end. all other commands can be used as Point/Line methods
 from datetime import datetime
 
-from PkgMapping.MappingClasses import Point,Line
+from PkgMapping.MappingClasses import Point,Line,showPlot
 
 #HARDCODED TEST VALUES
 wallLines = [
@@ -31,17 +30,17 @@ for wallLine in wallLines:
     xMin = min([wallLine.p1.x,wallLine.p2.x,xMin])
     yMax = max([wallLine.p1.y,wallLine.p2.y,yMax])
     yMin = min([wallLine.p1.y,wallLine.p2.y,yMin])
-    wallLine.plot("g")
+    #wallLine.plot("g")
 
-numXPoints = int((math.ceil(xMax) - math.floor(xMin))/10)
-numYPoints = int((math.ceil(yMax) - math.floor(yMin))/10)
+numXPoints = int((math.ceil(xMax) - math.floor(xMin))/2)
+numYPoints = int((math.ceil(yMax) - math.floor(yMin))/4)
 gridPoints = []
 for xPoints in range(0,numXPoints+1):
     for yPoints in range(0,numYPoints+1):
-        xPoint = math.floor(xMin)+10*xPoints
-        yPoint = math.floor(yMin)+10*yPoints
+        xPoint = math.floor(xMin)+2*xPoints
+        yPoint = math.floor(yMin)+4*yPoints
         gridPoint = Point(xPoint, yPoint)
-        gridPoint.plot("y")
+        #gridPoint.plot("y")
         gridPoints.append(gridPoint)
 
 #
@@ -58,7 +57,7 @@ while len(navPaths) == 0:
         if proposedLine.intersectsWall(wallLines) == False:
             navPaths.append(proposedLine)
             segments.append(proposedLine)
-            proposedLine.plot("green")
+            #proposedLine.plot("green")
     lastPoints2 = lastPoints
     lastPoints = []
     if len(navPaths) == 0:
@@ -67,22 +66,22 @@ while len(navPaths) == 0:
             for proposedLine in proposedLines:
                 lastPoints.append(proposedLine.p2)
                 segments.append(proposedLine)
-                if segmentCount == 1:
-                    proposedLine.plot("blue")
-                elif segmentCount == 2:
-                    proposedLine.plot("orange")
-                elif segmentCount == 3:
-                    proposedLine.plot("purple")
-                elif segmentCount == 1:
-                    proposedLine.plot("green")
+                # if segmentCount == 1:
+                #     proposedLine.plot("blue")
+                # elif segmentCount == 2:
+                #     proposedLine.plot("orange")
+                # elif segmentCount == 3:
+                #     proposedLine.plot("purple")
+                # elif segmentCount == 4:
+                #     proposedLine.plot("grey")
     allSegments.append(segments)
 
-# for segmentGroup in reversed(range(1,len(allSegments))):
-#     curSegment = set(allSegments[segmentGroup])
-#     for 
-#     nxtSegment = set(allSegments[segmentGroup-1])
+# for segment in allSegments:
+#     print(set(segment))
+#     print("\n")
+
 delta = datetime.now() - time1
 print(delta.seconds)
-navPointA.plot("r")
-navPointB.plot("r")
-plt.show()
+# navPointA.plot("r")
+# navPointB.plot("r")
+# showPlot()
