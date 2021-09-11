@@ -30,20 +30,22 @@ for wallLine in wallLines:
     xMin = min([wallLine.p1.x,wallLine.p2.x,xMin])
     yMax = max([wallLine.p1.y,wallLine.p2.y,yMax])
     yMin = min([wallLine.p1.y,wallLine.p2.y,yMin])
-    #wallLine.plot("g")
+    wallLine.plot("g")
 
-numXPoints = int((math.ceil(xMax) - math.floor(xMin))/2)
-numYPoints = int((math.ceil(yMax) - math.floor(yMin))/4)
+d1 = 2 #d1 = 2 for a more realistic experiment. d1 = 10 for a spaced out grid (for testing purposes)
+d2 = 4 #d2 = 4 for a more realistic experiment. d2 = 10 for a spaced out grid (for testing purposes)
+numXPoints = int((math.ceil(xMax) - math.floor(xMin))/d1)
+numYPoints = int((math.ceil(yMax) - math.floor(yMin))/d2)
 gridPoints = []
 for xPoints in range(0,numXPoints+1):
     for yPoints in range(0,numYPoints+1):
-        xPoint = math.floor(xMin)+2*xPoints
-        yPoint = math.floor(yMin)+4*yPoints
+        xPoint = math.floor(xMin)+d1*xPoints
+        yPoint = math.floor(yMin)+d2*yPoints
         gridPoint = Point(xPoint, yPoint)
-        #gridPoint.plot("y")
+        gridPoint.plot("y")
         gridPoints.append(gridPoint)
 
-#
+# Main loop
 time1 = datetime.now()
 lastPoints = [navPointA]
 navPaths = []
@@ -76,12 +78,8 @@ while len(navPaths) == 0:
                 #     proposedLine.plot("grey")
     allSegments.append(segments)
 
-# for segment in allSegments:
-#     print(set(segment))
-#     print("\n")
-
 delta = datetime.now() - time1
 print(delta.seconds)
-# navPointA.plot("r")
-# navPointB.plot("r")
-# showPlot()
+navPointA.plot("r")
+navPointB.plot("r")
+showPlot()
