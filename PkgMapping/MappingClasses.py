@@ -31,7 +31,15 @@ class Point(object):
             if Line(self,gridPoint).intersectsWall(wallLines) == False:
                 proposedSegments.append(Line(self,gridPoint))
         return proposedSegments
-	
+
+    def distanceToLine(self, line):
+        a = line.slope()
+        if a != None:
+            c = line.p1.y - a*line.p1.x
+            b = -1
+            return abs((a*self.x + b*self.y + c)/math.sqrt(a**2+b**2))
+        return abs(line.p1.x - self.x)
+
 class Line(object):
     def __init__(self, p1, p2):
         self.p1 = p1
