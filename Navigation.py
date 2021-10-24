@@ -1,24 +1,28 @@
+from os import getcwd
 import math
 from datetime import datetime
 
-from PkgMapping.MappingClasses import Point,Line,showPlot
+from PkgMapping.MappingClasses import Point,Line, showPlot
 
-#HARDCODED TEST VALUES
-wallLines = [
-    Line(Point(30,20),Point(140,20)),
-    Line(Point(140,20),Point(140,80)),
-    Line(Point(140,80),Point(60,80)),
-    Line(Point(60,80),Point(60,120)),
-    Line(Point(60,120),Point(120,120)),
-    Line(Point(120,120),Point(120,140)),
-    Line(Point(120,140),Point(30,140)),
-    Line(Point(30,140),Point(30,20)),
+def findPath(graph, start, end, path=[]):
+    path = path + [start]
+    if start == end:
+        return path
+    if not start in graph:
+        return None
+    for node in graph[start]:
+        if node not in path:
+            newpath = findPath(graph, node, end, path)
+            if newpath: return newpath
+    return None
 
-    Line(Point(40,50),Point(70,50)),
-    Line(Point(70,50),Point(70,60)),
-    Line(Point(70,60),Point(40,60)),
-    Line(Point(40,60),Point(40,50))
-]
+#Wall data read from csv
+with open(getcwd()+"/Map1.csv", "r") as mapDataFile:
+    next(mapDataFile)
+    wallLines = []
+    for row in mapDataFile:
+        row = row.split(",")
+        wallLines.append(Line(Point(float(row[0]),float(row[1])),Point(float(row[2]),float(row[3]))))
 navPointA = Point(47,47)
 navPointB = Point(105,125)
 
@@ -54,12 +58,14 @@ time1 = datetime.now()
 lastPoints = [navPointA]
 navPaths = []
 segmentCount = 0
+graph = {navPointA:[]}
 while len(navPaths) == 0:
     segmentCount += 1
     for lastPoint in lastPoints:
         proposedLine = Line(lastPoint, navPointB)
         if proposedLine.intersectsWall(wallLines) == False:
             navPaths.append(proposedLine)
+            graph[lastPoint] = [navPointB]
             #proposedLine.plot("green")
     lastPoints2 = lastPoints
     lastPoints = []
@@ -68,6 +74,7 @@ while len(navPaths) == 0:
             proposedLines = lastPoint.connectToGrid(gridPoints, wallLines, lastPoints2)
             for proposedLine in proposedLines:
                 lastPoints.append(proposedLine.p2)
+                graph[lastPoint] = lastPoints
                 #Plotting, for development purposes only. Keep commented to get accurate time estimate
                 # if segmentCount == 1:
                 #     proposedLine.plot("blue")
@@ -83,4 +90,11 @@ delta = datetime.now() - time1
 print(delta.seconds)
 navPointA.plot("r")
 navPointB.plot("r")
+
+finPath = findPath(graph, navPointA, navPointB)
+for index in range(len(finPath)-1):
+    x = Line(finPath[index],finPath[index+1])
+    x.plot("b")
+    print(x)
+
 showPlot()

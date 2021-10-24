@@ -2,9 +2,11 @@
     "hardware": {
         "wheelDiameter": 67.4,
         "stepAngle": 1.8,
-        "axelLength": 100.0
+        "axelLength": 100.0,
+        "maxChassisRadius": 15
     },
     "communications": {
         "serialPort1": "/dev/ttyACM0"
-    }
+    },
+    "comments": "CHANGE wheelDiameter and axelLength TO CM"
 }
