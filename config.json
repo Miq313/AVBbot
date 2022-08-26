@@ -1,4 +1,5 @@
 {
+    "environment": "development",
     "hardware": {
         "wheelDiameter": 67.4,
         "stepAngle": 1.8,
@@ -8,5 +9,8 @@
     "communications": {
         "serialPort1": "/dev/ttyACM0"
     },
-    "comments": "CHANGE wheelDiameter and axelLength TO CM"
+    "comments": [
+        "- CHANGE wheelDiameter and axelLength TO CM",
+        "- environment is 'development' or 'production'"
+    ]
 }
