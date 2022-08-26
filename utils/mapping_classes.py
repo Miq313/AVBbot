@@ -1,5 +1,6 @@
 import math
 import matplotlib.pyplot as plt
+
 class Point(object):
     def __init__(self, x, y):
         self.x = float(x)

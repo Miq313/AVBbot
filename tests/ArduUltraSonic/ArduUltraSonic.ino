@@ -4,7 +4,7 @@
 Servo servo;
 int sound = 250;
 void setup() {
-  pinMode(10, OUTPUT);
+  pinMode(10, OUTPUT); // led in pin 10
   Serial.begin (9600);
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);

@@ -4,7 +4,7 @@ import json
 import time
 
 from PkgSerial.SerWrite import serWrite
-from ..PkgMapping.MPS import updateCurPos
+from ..scripts.localization import update_cur_pos
 
 with open(os.getcwd()+"/Config.json", "r") as configFile:
     config = json.load(configFile)
@@ -22,4 +22,4 @@ def serReadAndUpdateMPS():
                 time.sleep(1)
                 serWrite("Reset")
             else:
-                updateCurPos(arduOutput)
+                update_cur_pos(arduOutput)
