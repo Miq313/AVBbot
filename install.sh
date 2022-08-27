@@ -1,4 +1,4 @@
-sudo apt install build-essential software-properties-common -y
+sudo apt install build-essential software-properties-common libatlas-base-dev -y
 
 sudo apt-add-repository ppa:deadsnakes/ppa -y
 sudo apt update -y && sudo apt full-upgrade -y
