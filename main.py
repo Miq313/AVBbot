@@ -3,7 +3,7 @@ import multiprocessing
 import os, json, time
 import serial
 
-from scripts import localization
+from scripts.localization import get_cur_pos, update_cur_pos, reset_cur_pos
 
 config_file_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "config.json")
 with open(config_file_path, "r") as config_file:
@@ -28,7 +28,7 @@ def process_serial_monitor():
                 time.sleep(1)
                 serial_write("Reset")
             else:
-                localization.update_cur_pos(pico_output)
+                update_cur_pos(pico_output)
 
 # Subprocess for controlling the robot
 def process_main():

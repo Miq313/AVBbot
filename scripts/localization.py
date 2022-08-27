@@ -14,6 +14,16 @@ wheel_radius = wheel_diameter/2
 step_distance = step_angle*wheel_radius
 axel_radius = axel_length/2
 
+def get_cur_pos():
+    data_folder_path = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), "data")
+    cur_pos_file_path = os.path.join(data_folder_path, "current_position.json")
+    with open(cur_pos_file_path, "r") as cur_pos_file:
+        cur_pos = json.load(cur_pos_file)
+        cur_pos["direction"] = float(cur_pos["direction"])
+        cur_pos["position"]["x"] = float(cur_pos["position"]["x"])
+        cur_pos["position"]["y"] = float(cur_pos["position"]["y"])
+    return cur_pos
+
 # Reset position in the JSON file
 def reset_cur_pos(x=0.0, y=0.0, dir=90.0):
     cur_pos = {
@@ -34,16 +44,8 @@ def update_cur_pos(movement):
     trav_dir = str(movement[0])
     trav_dist = float(movement[1])
 
-    # Reading current position from JSON
-    data_folder_path = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), "data")
-    cur_pos_file_path = os.path.join(data_folder_path, "current_position.json")
-    with open(cur_pos_file_path, "r") as cur_pos_file:
-        cur_pos = json.load(cur_pos_file)
-        cur_pos["direction"] = float(cur_pos["direction"])
-        cur_pos["position"]["x"] = float(cur_pos["position"]["x"])
-        cur_pos["position"]["y"] = float(cur_pos["position"]["y"])
-
     # Calculating change in position
+    cur_pos = get_cur_pos()
     if trav_dir == "F" or trav_dir == "B":
         delta_x = math.cos(math.radians(cur_pos["direction"]))*trav_dist*step_distance
         delta_y = math.sin(math.radians(cur_pos["direction"]))*trav_dist*step_distance
@@ -61,6 +63,8 @@ def update_cur_pos(movement):
         cur_pos["direction"] += deltaDir
 
     # Saving new position to JSON
+    data_folder_path = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), "data")
+    cur_pos_file_path = os.path.join(data_folder_path, "current_position.json")
     with open(cur_pos_file_path, "w") as cur_pos_file:
         cur_pos_file.write(json.dumps(cur_pos, indent = 4))
 
