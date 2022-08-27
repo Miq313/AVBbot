@@ -11,6 +11,7 @@ config_file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath
 with open(config_file_path, "r") as config_file:
     config = json.load(config_file)
     environment = config["environment"]
+    room_name = config["current_room"]
     if environment == "development":
         need_plot = True
     else:
@@ -18,7 +19,7 @@ with open(config_file_path, "r") as config_file:
 
 # Read wall data from CSV file
 data_folder_path = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), "data")
-map_walls_file = os.path.join(data_folder_path, "map_walls.csv")
+map_walls_file = os.path.join(data_folder_path, f"map_walls__{room_name}.csv")
 with open(map_walls_file, "r") as map_walls_file:
     next(map_walls_file) # Skip header line
     wall_lines = []
@@ -37,7 +38,7 @@ with open(map_walls_file, "r") as map_walls_file:
         )
 
 # Read grid data from CSV file
-map_gridpoints_file = os.path.join(data_folder_path, "map_gridpoints.csv")
+map_gridpoints_file = os.path.join(data_folder_path, f"map_gridpoints__{room_name}.csv")
 with open(map_gridpoints_file, "r") as map_gridpoints_file:
     next(map_gridpoints_file) # Skip header line
     gridpoints = []

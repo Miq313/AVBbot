@@ -1,5 +1,6 @@
 {
     "environment": "development",
+    "current_room": "room1",
     "hardware": {
         "wheelDiameter": 67.4,
         "stepAngle": 1.8,

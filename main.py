@@ -3,7 +3,9 @@ import multiprocessing
 import os, json, time
 import serial
 
+from scripts.cartography import create_map
 from scripts.localization import get_cur_pos, update_cur_pos, reset_cur_pos
+from scripts.navigation import navigate
 
 config_file_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "config.json")
 with open(config_file_path, "r") as config_file:
