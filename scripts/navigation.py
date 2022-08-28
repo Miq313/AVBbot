@@ -10,12 +10,12 @@ from mapping_classes import Point, Line, showPlot
 config_file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), "config.json")
 with open(config_file_path, "r") as config_file:
     config = json.load(config_file)
-    environment = config["environment"]
     room_name = config["current_room"]
+    environment = config["environment"]
+    need_plot = False
     if environment == "development":
         need_plot = True
-    else:
-        need_plot = False
+        
 
 # Read wall data from CSV file
 data_folder_path = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), "data")
